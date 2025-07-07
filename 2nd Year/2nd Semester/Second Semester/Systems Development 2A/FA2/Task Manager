@@ -1,0 +1,76 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+
+public class TaskManager {
+    private JFrame frame;
+    private ArrayList<String> tasks;
+    private JTextField taskNameField;
+    private JTextField taskIndexField;
+    private JButton insertButton;
+    private JButton removeButton;
+
+    public TaskManager() {
+        frame = new JFrame("Task Manager");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(2, 2));
+
+        taskNameField = new JTextField();
+        taskIndexField = new JTextField();
+        insertButton = new JButton("Insert");
+        removeButton = new JButton("Remove");
+
+        panel.add(new JLabel("Task Name:"));
+        panel.add(taskNameField);
+        panel.add(new JLabel("Task Index:"));
+        panel.add(taskIndexField);
+        panel.add(insertButton);
+        panel.add(removeButton);
+
+        frame.add(panel, BorderLayout.NORTH);
+
+        tasks = new ArrayList<>();
+
+        insertButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String taskName = taskNameField.getText();
+                tasks.add(taskName);
+                taskNameField.setText("");
+            }
+        });
+
+        removeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int taskIndex = Integer.parseInt(taskIndexField.getText());
+                tasks.remove(taskIndex);
+                taskIndexField.setText("");
+            }
+        });
+
+        JButton viewButton = new JButton("View");
+        viewButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Tasks:");
+                for (String task : tasks) {
+                    System.out.println(task);
+                }
+            }
+        });
+
+        frame.add(viewButton, BorderLayout.SOUTH);
+
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new TaskManager();
+    }
+}
